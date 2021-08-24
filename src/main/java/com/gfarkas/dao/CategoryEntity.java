@@ -17,6 +17,9 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "categoryEntity")
     private Set<ProductEntity> productEntities = new HashSet<>();
 
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     @Id
     private Long id;
 

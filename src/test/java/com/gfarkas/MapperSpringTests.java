@@ -4,6 +4,8 @@ import com.gfarkas.dao.CategoryEntity;
 import com.gfarkas.dao.ProductEntity;
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.dto.ProductDto;
+import com.gfarkas.mapper.CategoryMapper;
+import com.gfarkas.mapper.ProductMapper;
 import com.gfarkas.repository.CategoryRepository;
 import com.gfarkas.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
@@ -19,14 +21,14 @@ import java.util.UUID;
 class MapperSpringTests {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    ProductMapper productMapper;
+    private ProductMapper productMapper;
     @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     @Test
     public void productMapperTest() {
@@ -57,6 +59,11 @@ class MapperSpringTests {
 
         Assertions.assertNotNull(categoryEntity);
         Assertions.assertEquals(10, categoryEntity.getProductEntities().size());
+
+        categoryDto = categoryMapper.toCategoryDto(categoryEntity);
+
+        Assertions.assertNotNull(categoryDto);
+        Assertions.assertEquals(10, categoryDto.getProductDtos().size());
     }
 
     private ProductDto createProductDto(Random random, String brand, Integer price, String description, String os, Integer size) {

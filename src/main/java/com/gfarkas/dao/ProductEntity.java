@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 @Table(name = "product")
 public class ProductEntity {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     @Id
     private Long id;
 
