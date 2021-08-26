@@ -2,6 +2,7 @@ package com.gfarkas;
 
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,16 +35,41 @@ class ProductServiceSpringTests {
     }
 
     @Test
-    public void getProductByBrandTest() {
-        createProductTest();
-        ProductDto receivedProduct = service.getByBrand("Dell");
-        Assertions.assertNotNull(receivedProduct);
-        Assertions.assertEquals(12, receivedProduct.getSize());
+    public void getProductsByBrandTest() {
+        createProductDto(null, "Dell", 123, "description", "os", 12);
+        Set<ProductDto> receivedProducts = service.getByBrand("Dell");
+        Assertions.assertNotNull(receivedProducts);
+        for (Object o : receivedProducts.toArray()) {
+            ProductDto productDto = (ProductDto) o;
+            Assertions.assertEquals(12, productDto.getSize());
+        }
+    }
+
+    @Test
+    public void getProductsByDescriptionTest() {
+        createProductDto(null, "Dell", 123, "description", "os", 12);
+        Set<ProductDto> receivedProducts = service.getByDescription("description");
+        Assertions.assertNotNull(receivedProducts);
+        for (Object o : receivedProducts.toArray()) {
+            ProductDto productDto = (ProductDto) o;
+            Assertions.assertEquals(123, productDto.getPrice());
+        }
+    }
+
+    @Test
+    public void getProductsByCategoryIdTest() {
+        createProductDto(null, "Dell", 123, "description", "os", 12);
+        Set<ProductDto> receivedProducts = service.getProductsByCategoryId(1L);
+        Assertions.assertNotNull(receivedProducts);
+        for (Object o : receivedProducts.toArray()) {
+            ProductDto productDto = (ProductDto) o;
+            Assertions.assertEquals("os", productDto.getOs());
+        }
     }
 
     @Test
     public void listProductTest() {
-    	Random random = new Random();
+        Random random = new Random();
         for (long i = 0L; i < 10; i++) {
             createProductDto(random, null, null, null, null, null);
         }
@@ -58,6 +84,7 @@ class ProductServiceSpringTests {
         }
 
         ProductDto productDto = new ProductDto();
+        productDto.setCategoryId(1L);
 
         if (brand == null) {
             brand = UUID.randomUUID().toString();
