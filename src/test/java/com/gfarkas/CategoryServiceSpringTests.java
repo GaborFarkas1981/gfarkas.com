@@ -2,6 +2,7 @@ package com.gfarkas;
 
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.repository.CategoryRepository;
+import com.gfarkas.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +45,9 @@ class CategoryServiceSpringTests {
 		for (long i = 0L; i < 10 ; i++) {
 			createCategory("Note" + i);
 		}
-		Set<CategoryDto> receivedCategorys = service.list();
-		Assertions.assertNotNull(receivedCategorys);
-		Assertions.assertEquals(10, receivedCategorys.size());
+		Set<CategoryDto> receivedCategories = service.list();
+		Assertions.assertNotNull(receivedCategories);
+		Assertions.assertEquals(10, receivedCategories.size());
 	}
 
 	private CategoryDto createCategory(String categoryName) {
