@@ -20,7 +20,6 @@ class CommonTestService {
         }
 
         ProductDto productDto = new ProductDto();
-        productDto.setCategoryId(1L);
 
         if (brand == null) {
             brand = UUID.randomUUID().toString();

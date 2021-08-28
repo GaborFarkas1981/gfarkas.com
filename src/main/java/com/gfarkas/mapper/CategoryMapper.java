@@ -16,9 +16,13 @@ import java.util.Set;
 public abstract class CategoryMapper {
 
     public abstract CategoryDto toCategoryDto(CategoryEntity categoryEntity);
+
     public abstract Set<CategoryDto> toCategoryDto(Iterable<CategoryEntity> categoryEntities);
+
     public abstract CategoryEntity toCategoryEntity(CategoryDto categoryDto);
+
     public abstract Set<ProductDto> toProductDto(Set<ProductEntity> productEntities);
+
     public abstract Set<ProductEntity> toProductEntity(Set<ProductDto> productDtos);
 
     @AfterMapping
@@ -28,6 +32,16 @@ public abstract class CategoryMapper {
 
     @AfterMapping
     public void toCategoryEntity(CategoryDto categoryDto, @MappingTarget CategoryEntity categoryEntity) {
-        categoryEntity.setProductEntities(toProductEntity(categoryDto.getProductDtos()));
+        Set<ProductDto> productDtos = categoryDto.getProductDtos();
+        Set<ProductEntity> productEntities = toProductEntity(productDtos);
+
+        if (productEntities != null) {
+            for (ProductEntity productEntity : productEntities) {
+                productEntity.setCategoryEntity(categoryEntity);
+            }
+        }
+
+
+        categoryEntity.setProductEntities(productEntities);
     }
 }

@@ -1,0 +1,136 @@
+{
+  "categories": [
+    {
+      "name": "laptops",
+      "products": [
+        {
+          "description": "mac laptop v1",
+          "price": 1000,
+          "size": 15,
+          "brand": "apple",
+          "os": "ios"
+        },
+        {
+          "description": "mac laptop v12",
+          "price": 1200,
+          "size": 15,
+          "brand": "apple",
+          "os": "ios"
+        },
+        {
+          "description": "windows laptop",
+          "price": 800,
+          "size": 15,
+          "brand": "microsoft",
+          "os": "windows"
+        },
+        {
+          "description": "google laptop",
+          "price": 900,
+          "size": 13,
+          "brand": "google",
+          "os": "android"
+        },
+        {
+          "description": "google laptop new gen",
+          "price": 1400,
+          "size": 13,
+          "brand": "google",
+          "os": "android"
+        }
+      ]
+    },
+    {
+      "name": "tablets",
+      "products": [
+        {
+          "description": "ipad v1",
+          "price": 500,
+          "size": 13,
+          "brand": "apple",
+          "os": "ios"
+        },
+        {
+          "description": "ipad v2",
+          "price": 700,
+          "size": 15,
+          "brand": "apple",
+          "os": "ios"
+        },
+        {
+          "description": "samsung tablet",
+          "price": 250,
+          "size": 15,
+          "brand": "google",
+          "os": "android"
+        },
+        {
+          "description": "surface pro 7",
+          "price": 330,
+          "size": 15,
+          "brand": "microsoft",
+          "os": "windows"
+        }
+      ]
+    },
+    {
+      "name": "tvs",
+      "products": [
+        {
+          "description": "samsung tv",
+          "price": 800,
+          "size": 68,
+          "brand": "samsung",
+          "os": ""
+        },
+        {
+          "description": "grundig tv",
+          "price": 400,
+          "size": 44,
+          "brand": "grundig",
+          "os": ""
+        },
+        {
+          "description": "sony tv v1",
+          "price": 750,
+          "size": 44,
+          "brand": "sony",
+          "os": ""
+        },
+        {
+          "description": "sony tv v2",
+          "price": 1300,
+          "size": 48,
+          "brand": "sony",
+          "os": ""
+        }
+      ]
+    },
+    {
+      "name": "camera",
+      "products": [
+        {
+          "description": "sony pro 1",
+          "price": 630,
+          "size": "",
+          "brand": "sony",
+          "os": ""
+        },
+        {
+          "description": "sony pro 2 new gen",
+          "price": 1000,
+          "size": "",
+          "brand": "sony",
+          "os": ""
+        },
+        {
+          "description": "canon wow",
+          "price": 750,
+          "size": "",
+          "brand": "canon",
+          "os": ""
+        }
+      ]
+    }
+  ]
+}
