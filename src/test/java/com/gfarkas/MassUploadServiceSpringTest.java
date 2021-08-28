@@ -7,6 +7,7 @@ import com.gfarkas.dto.MassUploadDto;
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.repository.CategoryRepository;
 import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.service.MassUploadService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,10 +46,10 @@ public class MassUploadServiceSpringTest extends CommonTestService {
         addTenProducts(rand, productDtos1, productDtos2);
 
         CategoryDto category1 = new CategoryDto();
-        addProductsToCategory(rand, productDtos1, category1);
+        addProductsToCategory(productDtos1, category1);
 
         CategoryDto category2 = new CategoryDto();
-        addProductsToCategory(rand, productDtos2, category2);
+        addProductsToCategory(productDtos2, category2);
 
         createMassUploadDto(category1, category2);
 
@@ -69,7 +70,7 @@ public class MassUploadServiceSpringTest extends CommonTestService {
         massUploadService.create(massUploadDto);
     }
 
-    private void addProductsToCategory(Random rand, Set<ProductDto> productDtos1, CategoryDto category) {
+    private void addProductsToCategory(Set<ProductDto> productDtos1, CategoryDto category) {
         category.setName(UUID.randomUUID().toString());
         category.setProductDtos(productDtos1);
     }

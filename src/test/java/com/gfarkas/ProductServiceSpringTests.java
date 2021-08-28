@@ -1,6 +1,8 @@
 package com.gfarkas;
 
+import com.gfarkas.dao.ProductEntity;
 import com.gfarkas.dto.ProductDto;
+import com.gfarkas.mapper.ProductMapper;
 import com.gfarkas.repository.ProductRepository;
 import com.gfarkas.service.ProductService;
 import org.junit.jupiter.api.Assertions;
@@ -13,13 +15,16 @@ import java.util.Random;
 import java.util.Set;
 
 @SpringBootTest
-public class ProductServiceSpringTests extends CommonTestService{
+public class ProductServiceSpringTests extends CommonTestService {
 
     @Autowired
     ProductService service;
 
     @Autowired
     ProductRepository repository;
+
+    @Autowired
+    ProductMapper mapper;
 
     @BeforeEach
     public void clearAllProduct() {
@@ -28,14 +33,14 @@ public class ProductServiceSpringTests extends CommonTestService{
 
     @Test
     public void createProductTest() {
-        ProductDto savedProduct = createProductDto(null, "Dell", 123, "description", "os", 12);
+        ProductDto savedProduct = mapper.toProductDto(saveProduct());
         Assertions.assertNotNull(savedProduct);
         Assertions.assertEquals(123, savedProduct.getPrice());
     }
 
     @Test
     public void getProductsByBrandTest() {
-        createProductDto(null, "Dell", 123, "description", "os", 12);
+        saveProduct();
         Set<ProductDto> receivedProducts = service.getByBrand("Dell");
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
@@ -46,7 +51,7 @@ public class ProductServiceSpringTests extends CommonTestService{
 
     @Test
     public void getProductsByDescriptionTest() {
-        createProductDto(null, "Dell", 123, "description", "os", 12);
+        saveProduct();
         Set<ProductDto> receivedProducts = service.getByDescription("description");
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
@@ -57,7 +62,7 @@ public class ProductServiceSpringTests extends CommonTestService{
 
     @Test
     public void getProductsByCategoryIdTest() {
-        createProductDto(null, "Dell", 123, "description", "os", 12);
+        saveProduct();
         Set<ProductDto> receivedProducts = service.getProductsByCategoryId(1L);
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
@@ -66,11 +71,19 @@ public class ProductServiceSpringTests extends CommonTestService{
         }
     }
 
+    private ProductEntity saveProduct() {
+        return repository.save(
+                mapper.toProductEntity(
+                        createProductDto(
+                                null, "Dell", 123, "description", "os", 12))
+        );
+    }
+
     @Test
     public void listProductTest() {
         Random random = new Random();
         for (long i = 0L; i < 10; i++) {
-            createProductDto(random, null, null, null, null, null);
+            saveProduct();
         }
         Set<ProductDto> receivedProducts = service.list();
         Assertions.assertNotNull(receivedProducts);

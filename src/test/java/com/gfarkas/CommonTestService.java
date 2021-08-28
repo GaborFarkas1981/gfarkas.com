@@ -1,7 +1,6 @@
 package com.gfarkas;
 
 import com.gfarkas.dto.ProductDto;
-import com.gfarkas.repository.ProductRepository;
 import com.gfarkas.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +13,6 @@ class CommonTestService {
 
     @Autowired
     ProductService service;
-
-    @Autowired
-    ProductRepository repository;
 
     protected ProductDto createProductDto(Random random, String brand, Integer price, String description, String os, Integer size) {
         if (random == null) {
@@ -50,6 +46,6 @@ class CommonTestService {
         }
         productDto.setOs(os);
 
-        return service.create(productDto);
+        return productDto;
     }
 }
