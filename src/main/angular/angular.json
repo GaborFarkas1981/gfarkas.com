@@ -3,28 +3,31 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular": {
+    "mainApplication": {
       "projectType": "application",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/mainApplication",
+      "sourceRoot": "projects/mainApplication/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/mainApplication",
+            "index": "projects/mainApplication/src/index.html",
+            "main": "projects/mainApplication/src/main.ts",
+            "polyfills": "projects/mainApplication/src/polyfills.ts",
+            "tsConfig": "projects/mainApplication/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/mainApplication/src/favicon.ico",
+              "projects/mainApplication/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/primeicons/primeicons.css",
+              "./node_modules/primeng/resources/themes/nova/theme.css",
+              "./node_modules/primeng/resources/primeng.min.css",
+              "projects/mainApplication/src/styles.css"
             ],
             "scripts": []
           },
@@ -32,8 +35,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/mainApplication/src/environments/environment.ts",
+                  "with": "projects/mainApplication/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -62,33 +65,33 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular:build"
+            "browserTarget": "mainApplication:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular:build:production"
+              "browserTarget": "mainApplication:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular:build"
+            "browserTarget": "mainApplication:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "projects/mainApplication/src/test.ts",
+            "polyfills": "projects/mainApplication/src/polyfills.ts",
+            "tsConfig": "projects/mainApplication/tsconfig.spec.json",
+            "karmaConfig": "projects/mainApplication/karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/mainApplication/src/favicon.ico",
+              "projects/mainApplication/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/mainApplication/src/styles.css"
             ],
             "scripts": []
           }
@@ -97,9 +100,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "projects/mainApplication/tsconfig.app.json",
+              "projects/mainApplication/tsconfig.spec.json",
+              "projects/mainApplication/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -109,16 +112,16 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular:serve"
+            "protractorConfig": "projects/mainApplication/e2e/protractor.conf.js",
+            "devServerTarget": "mainApplication:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "angular:serve:production"
+              "devServerTarget": "mainApplication:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "angular"
+  "defaultProject": "mainApplication"
 }
