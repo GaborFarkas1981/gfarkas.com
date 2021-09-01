@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "category")
 public class CategoryEntity {
 
-    @OneToMany(mappedBy = "categoryEntity", cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "categoryEntity")
     private Set<ProductEntity> productEntities = new HashSet<>();
 
 

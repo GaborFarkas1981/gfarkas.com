@@ -26,16 +26,16 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{brand}")
     public ResponseEntity<Set<ProductDto>> get(@PathVariable(value = "brand") String brand) {
         return new ResponseEntity<>(service.getByBrand(brand),
                 HttpStatus.OK
         );
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Set<ProductDto>> list(@PathVariable("categoryId") Long categoryId) {
-        return new ResponseEntity<>(service.getProductsByCategoryId(categoryId),
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<Set<ProductDto>> list(@PathVariable("categoryName") String categoryName) {
+        return new ResponseEntity<>(service.getProductsByCategoryName(categoryName),
                 HttpStatus.OK
         );
     }

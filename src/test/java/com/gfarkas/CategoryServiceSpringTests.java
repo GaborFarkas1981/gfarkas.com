@@ -2,6 +2,7 @@ package com.gfarkas;
 
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.repository.CategoryRepository;
+import com.gfarkas.repository.ProductRepository;
 import com.gfarkas.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Objects;
 import java.util.Set;
 
 @SpringBootTest
@@ -18,11 +20,15 @@ class CategoryServiceSpringTests {
 	CategoryService service;
 
 	@Autowired
-	CategoryRepository repository;
+	CategoryRepository categoryRepository;
+
+	@Autowired
+	ProductRepository productRepository;
 
 	@BeforeEach
-	public void clearAllProduct() {
-		repository.deleteAll();
+	public void clearAllCategory() {
+		productRepository.deleteAll();
+		categoryRepository.deleteAll();
 	}
 
 	@Test
@@ -52,11 +58,7 @@ class CategoryServiceSpringTests {
 
 	private CategoryDto createCategory(String categoryName) {
 		CategoryDto categoryDto = new CategoryDto();
-		if (categoryName == null) {
-			categoryDto.setName("catName");
-		} else {
-			categoryDto.setName(categoryName);
-		}
+		categoryDto.setName(Objects.requireNonNullElse(categoryName, "catName"));
 
 		return service.create(categoryDto);
 	}

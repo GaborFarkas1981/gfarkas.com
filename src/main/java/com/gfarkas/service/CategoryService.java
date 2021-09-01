@@ -38,7 +38,7 @@ public class CategoryService {
     }
 
     public CategoryDto getByName(String name) {
-        CategoryEntity category = repository.getCategoryEntityByName(name);
+        CategoryEntity category = repository.findCategoryEntityByName(name);
 
         return mapper.toCategoryDto(category);
     }

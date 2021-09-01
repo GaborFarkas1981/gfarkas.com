@@ -1,5 +1,6 @@
 package com.gfarkas.service;
 
+import com.gfarkas.dao.CategoryEntity;
 import com.gfarkas.dao.ProductEntity;
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.mapper.ProductMapper;
@@ -49,6 +50,13 @@ public class ProductService {
 
     public Set<ProductDto> getProductsByCategoryId(Long categoryId) {
         Set<ProductEntity> productEntities = productRepository.findByCategoryEntity_Id(categoryId);
+
+        return mapper.toProductDto(productEntities);
+    }
+
+    public Set<ProductDto> getProductsByCategoryName(String categoryName) {
+        CategoryEntity categoryEntity = categoryRepository.findCategoryEntityByName(categoryName);
+        Set<ProductEntity> productEntities = productRepository.findByCategoryEntity_Id(categoryEntity.getId());
 
         return mapper.toProductDto(productEntities);
     }

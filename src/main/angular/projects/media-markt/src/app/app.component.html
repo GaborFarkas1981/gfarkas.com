@@ -1,0 +1,32 @@
+<div class="my-container">
+  <div class="row">
+    <span class="col-4">
+      <p-dropdown (onChange)="listProduct(selectedCategory.name)"
+                  [(ngModel)]="selectedCategory"
+                  [options]="categories"
+                  optionLabel="name"
+                  placeholder="Select a Category">
+      </p-dropdown>
+    </span>
+    <span *ngIf="products.length > 0" class="col-4">
+      <p-dropdown [(ngModel)]="selectedProduct"
+                  [options]="filteredProducts"
+                  optionLabel="description"
+                  placeholder="Select a Product">
+      </p-dropdown>
+    </span>
+    <span *ngIf="products.length > 0" class="col-4">
+            <input [(ngModel)]="brand" pInputText placeholder="brand">
+            <button (click)="searchByBrand()" pButton>Filter productlist by brand</button>
+    </span>
+  </div>
+
+  <div *ngIf="selectedProduct.description">
+        <p>SELECTED PRODUCT DETAILS:</p>
+          <p>Description: {{selectedProduct.description}}</p>
+          <p *ngIf="selectedProduct.price">Price: {{selectedProduct.price}} €</p>
+          <p *ngIf="selectedProduct.os">Os: {{selectedProduct.os}}</p>
+          <p *ngIf="selectedProduct.brand">Brand: {{selectedProduct.brand}}</p>
+          <p *ngIf="selectedProduct.size">Size: {{selectedProduct.size}} inch</p>
+  </div>
+</div>

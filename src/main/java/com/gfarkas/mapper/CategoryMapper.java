@@ -25,10 +25,6 @@ public abstract class CategoryMapper {
 
     public abstract Set<ProductEntity> toProductEntity(Set<ProductDto> productDtos);
 
-    @AfterMapping
-    public void toCategoryDto(CategoryEntity categoryEntity, @MappingTarget CategoryDto categoryDto) {
-        categoryDto.setProductDtos(toProductDto(categoryEntity.getProductEntities()));
-    }
 
     @AfterMapping
     public void toCategoryEntity(CategoryDto categoryDto, @MappingTarget CategoryEntity categoryEntity) {

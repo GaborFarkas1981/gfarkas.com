@@ -1,5 +1,6 @@
 package com.gfarkas.service;
 
+import com.gfarkas.dao.CategoryEntity;
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.dto.MassUploadDto;
 import com.gfarkas.mapper.CategoryMapper;
@@ -24,7 +25,10 @@ public class MassUploadService {
 
     public void create(MassUploadDto massUploadDto) {
         for (CategoryDto categoryDto : massUploadDto.getCategoryDtos()) {
-            categoryRepository.save(categoryMapper.toCategoryEntity(categoryDto));
+            CategoryEntity categoryEntity = categoryMapper.toCategoryEntity(categoryDto);
+            categoryRepository.save(categoryEntity);
+            productRepository.saveAll(categoryEntity.getProductEntities());
+
         }
     }
 }

@@ -59,11 +59,6 @@ class MapperSpringTests {
 
         Assertions.assertNotNull(categoryEntity);
         Assertions.assertEquals(10, categoryEntity.getProductEntities().size());
-
-        categoryDto = categoryMapper.toCategoryDto(categoryEntity);
-
-        Assertions.assertNotNull(categoryDto);
-        Assertions.assertEquals(10, categoryDto.getProductDtos().size());
     }
 
     private ProductDto createProductDto(Random random, String brand, Integer price, String description, String os, Integer size) {
