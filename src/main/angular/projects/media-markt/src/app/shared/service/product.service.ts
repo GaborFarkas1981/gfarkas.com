@@ -11,6 +11,6 @@ export class ProductService {
   }
 
   getAllProductsByCategoryName(categoryName: string): Observable<any> {
-    return this.http.get('//localhost:8080/products/category/' + categoryName);
+    return this.http.get('//localhost:8081/products/category/' + categoryName);
   }
 }

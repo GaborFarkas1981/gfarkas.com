@@ -11,7 +11,7 @@ export class CategoryService {
   }
 
   getAllCategories(): Observable<any> {
-    return this.http.get('http://localhost:8080/categories');
+    return this.http.get('http://localhost:8081/categories');
   }
 
 }

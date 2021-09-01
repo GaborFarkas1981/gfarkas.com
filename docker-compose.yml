@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+  mediamarktbackend:
+    build: ./
+    container_name: media_markt_backend
+    image: mediamarkt/backend:version1.0
+    ports:
+      - "8081:8081"
