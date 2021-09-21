@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {InputTextModule} from "primeng/inputtext";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ButtonModule} from "primeng/button";
 import {DropdownModule} from "primeng/dropdown";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {InputTextModule} from "primeng/inputtext";
-import {ButtonModule} from "primeng/button";
 import {ListboxModule} from "primeng/listbox";
 
 @NgModule({
@@ -29,4 +29,5 @@ import {ListboxModule} from "primeng/listbox";
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

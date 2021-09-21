@@ -19,3 +19,9 @@ services:
       - "8081:8081"
     depends_on:
       - dbpostgresql
+
+  mediamarktfrontend:
+    build: ./src/main/angular/MediaMarktApp/
+    container_name: media_markt_frontend
+    ports:
+      - "80:80"
