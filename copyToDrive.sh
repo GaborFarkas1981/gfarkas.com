@@ -1,0 +1,1 @@
+rsync -avW --exclude 'target' --exclude '.idea' --exclude 'src/main/angular/MediaMarktApp/node_modules' --exclude 'src/main/angular/MediaMarktApp/dist' ~/IdeaProjects/gfarkas.com/ ~/myGoogleDrive/Job/gfarkas
