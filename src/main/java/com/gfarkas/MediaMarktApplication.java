@@ -2,7 +2,7 @@ package com.gfarkas;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gfarkas.dto.MassUploadDto;
+import com.gfarkas.dto.MediaMarktDto;
 import com.gfarkas.service.MassUploadService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,12 +25,12 @@ public class MediaMarktApplication {
 	CommandLineRunner commandLineRunner(MassUploadService massUploadService) {
 		return args -> {
 			ObjectMapper mapper = new ObjectMapper();
-			TypeReference<MassUploadDto> typeReference = new TypeReference<>() {};
+			TypeReference<MediaMarktDto> typeReference = new TypeReference<>() {};
 			Resource resource = new ClassPathResource("json/sample_data.json");
 			InputStream inputStream = resource.getInputStream();
 			try {
-				MassUploadDto massUploadDto = mapper.readValue(inputStream, typeReference);
-				massUploadService.create(massUploadDto);
+				MediaMarktDto mediaMarktDto = mapper.readValue(inputStream, typeReference);
+				massUploadService.create(mediaMarktDto);
 				System.out.println("Products saved");
 			} catch (IOException ioException) {
 				System.out.println("Unable to save products: " + ioException.getMessage());

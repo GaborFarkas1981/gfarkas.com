@@ -1,8 +1,9 @@
 package com.gfarkas;
 
+import com.gfarkas.dao.Category;
 import com.gfarkas.dto.CategoryDto;
-import com.gfarkas.repository.CategoryRepository;
-import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.repository.MediaMarktRepository;
+import com.gfarkas.repository.MediaMarktRepositoryImpl;
 import com.gfarkas.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 @SpringBootTest
 class CategoryServiceSpringTests {
@@ -20,22 +21,19 @@ class CategoryServiceSpringTests {
 	CategoryService service;
 
 	@Autowired
-	CategoryRepository categoryRepository;
-
-	@Autowired
-	ProductRepository productRepository;
+	MediaMarktRepositoryImpl repository;
 
 	@BeforeEach
 	public void clearAllCategory() {
-		productRepository.deleteAll();
-		categoryRepository.deleteAll();
+		repository.deleteAll();
 	}
 
 	@Test
 	public void createCategoryTest() {
-		CategoryDto savedCategory = createCategory("Notebook");
-		Assertions.assertNotNull(savedCategory);
-		Assertions.assertEquals("Notebook", savedCategory.getName());
+		createCategory("Notebook");
+		List<Category> categories = repository.findAll();
+		Assertions.assertNotNull(categories);
+		Assertions.assertEquals("Notebook", categories.get(0).getName());
 	}
 
 	@Test
@@ -51,15 +49,14 @@ class CategoryServiceSpringTests {
 		for (long i = 0L; i < 10 ; i++) {
 			createCategory("Note" + i);
 		}
-		Set<CategoryDto> receivedCategories = service.list();
+		List<CategoryDto> receivedCategories = service.list();
 		Assertions.assertNotNull(receivedCategories);
 		Assertions.assertEquals(10, receivedCategories.size());
 	}
 
-	private CategoryDto createCategory(String categoryName) {
+	private void createCategory(String categoryName) {
 		CategoryDto categoryDto = new CategoryDto();
 		categoryDto.setName(Objects.requireNonNullElse(categoryName, "catName"));
-
-		return service.create(categoryDto);
+		repository.add(categoryDto);
 	}
 }

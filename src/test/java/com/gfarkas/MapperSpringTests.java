@@ -1,19 +1,18 @@
 package com.gfarkas;
 
-import com.gfarkas.dao.CategoryEntity;
-import com.gfarkas.dao.ProductEntity;
+import com.gfarkas.dao.Product;
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.mapper.CategoryMapper;
 import com.gfarkas.mapper.ProductMapper;
-import com.gfarkas.repository.CategoryRepository;
-import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.repository.MediaMarktRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -21,47 +20,37 @@ import java.util.UUID;
 class MapperSpringTests {
 
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private MediaMarktRepository repository;
 
     @Autowired
     private ProductMapper productMapper;
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @BeforeEach
+    public void createCategory() {
+        repository.deleteAll();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setName("Notebook");
+        repository.add(categoryDto);
+    }
+
     @Test
     public void productMapperTest() {
-        ProductDto productDto = createProductDto(null, "Dell", 123, "MacOs Lattitude notebook 17\"", "MacOs", 17);
+        ProductDto productDto = createProductDto(null, null, "Dell", 123, "MacOs Lattitude notebook 17\"", "MacOs", 17);
 
-        ProductEntity productEntity = productRepository.save(productMapper.toProductEntity(productDto));
+        repository.addProductToCategory(productDto);
 
-        Assertions.assertNotNull(productEntity);
-        Assertions.assertEquals(productDto.getDescription(), productEntity.getDescription());
+        List<Product> notebooks = repository.findAllProductInCategory("Notebook");
+        Assertions.assertNotNull(notebooks);
+        Assertions.assertEquals(notebooks.get(0).getDescription(), productDto.getDescription());
 
-        productDto = productMapper.toProductDto(productEntity);
+        productDto = productMapper.toProductDto(notebooks.get(0));
 
-        Assertions.assertEquals(productDto.getBrand(), productEntity.getBrand());
+        Assertions.assertEquals(productDto.getBrand(), productDto.getBrand());
     }
 
-    @Test
-    public void categoryMapperTest() {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setProductDtos(new HashSet<>());
-        categoryDto.setName("Notebook");
-        for (int i = 0; i < 10; i++) {
-            categoryDto.getProductDtos().add(
-                    createProductDto(new Random(), null, null, null, null, null)
-            );
-        }
-
-        CategoryEntity categoryEntity = categoryRepository.save(categoryMapper.toCategoryEntity(categoryDto));
-
-        Assertions.assertNotNull(categoryEntity);
-        Assertions.assertEquals(10, categoryEntity.getProductEntities().size());
-    }
-
-    private ProductDto createProductDto(Random random, String brand, Integer price, String description, String os, Integer size) {
+    private ProductDto createProductDto(Random random, String categoryName, String brand, Integer price, String description, String os, Integer size) {
         if (random == null) {
             random = new Random();
         }
@@ -91,6 +80,11 @@ class MapperSpringTests {
             os = UUID.randomUUID().toString();
         }
         productDto.setOs(os);
+
+        if (categoryName == null) {
+            categoryName = "Notebook";
+        }
+        productDto.setCategoryName(categoryName);
 
         return productDto;
     }

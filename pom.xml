@@ -18,12 +18,18 @@
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.20</org.projectlombok.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <microstream.version>04.01.00-MS-GA</microstream.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.2.23</version>
+            <groupId>one.microstream</groupId>
+            <artifactId>storage.embedded</artifactId>
+            <version>${microstream.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>one.microstream</groupId>
+            <artifactId>storage.embedded.configuration</artifactId>
+            <version>${microstream.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,6 +95,14 @@
             <version>${org.mapstruct.version}</version>
         </dependency>
     </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>microstream-maven-releases</id>
+            <url>https://repo.microstream.one/repository/maven-public/</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

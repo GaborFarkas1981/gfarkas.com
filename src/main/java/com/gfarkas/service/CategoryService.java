@@ -1,15 +1,13 @@
 package com.gfarkas.service;
 
-import com.gfarkas.dao.CategoryEntity;
+import com.gfarkas.dao.Category;
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.mapper.CategoryMapper;
-import com.gfarkas.repository.CategoryRepository;
+import com.gfarkas.repository.MediaMarktRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -18,37 +16,21 @@ public class CategoryService {
     CategoryMapper mapper;
 
     @Autowired
-    CategoryRepository repository;
+    MediaMarktRepository repository;
 
-    public CategoryDto create(CategoryDto categoryDto) {
-        CategoryEntity categoryEntity = mapper.toCategoryEntity(categoryDto);
-        repository.save(categoryEntity);
-
-        return categoryDto;
-    }
-
-    public CategoryDto get(Long categoryId) {
-        CategoryEntity categoryEntity = null;
-        Optional<CategoryEntity> optionalCategoryEntity = repository.findById(categoryId);
-        if (optionalCategoryEntity.isPresent()) {
-            categoryEntity = optionalCategoryEntity.get();
-        }
-
-        return mapper.toCategoryDto(categoryEntity);
+    public void create(CategoryDto categoryDto) {
+        repository.add(categoryDto);
     }
 
     public CategoryDto getByName(String name) {
-        CategoryEntity category = repository.findCategoryEntityByName(name);
+        Category category = repository.findCategoryByName(name).get(0);
 
         return mapper.toCategoryDto(category);
     }
 
-    public Set<CategoryDto> list() {
-        Iterable<CategoryEntity> categoryEntityIterable = repository.findAll();
-        Set<CategoryEntity> categoryEntities = new HashSet<>();
-        for (CategoryEntity categoryEntity : categoryEntityIterable) {
-            categoryEntities.add(categoryEntity);
-        }
-        return mapper.toCategoryDto(categoryEntities);
+    public List<CategoryDto> list() {
+        List<Category> categories = repository.findAll();
+
+        return mapper.toCategoryDto(categories);
     }
 }

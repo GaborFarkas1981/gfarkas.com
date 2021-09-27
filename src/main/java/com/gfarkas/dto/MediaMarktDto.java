@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 
 @Getter
 @Setter
-public class MassUploadDto  {
+public class MediaMarktDto {
     @JsonProperty("categories")
-    private Set<CategoryDto> categoryDtos;
+    private List<CategoryDto> categoryDtos;
 }

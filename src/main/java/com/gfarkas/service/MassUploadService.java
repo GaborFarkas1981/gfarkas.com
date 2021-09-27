@@ -1,12 +1,10 @@
 package com.gfarkas.service;
 
-import com.gfarkas.dao.CategoryEntity;
 import com.gfarkas.dto.CategoryDto;
-import com.gfarkas.dto.MassUploadDto;
+import com.gfarkas.dto.MediaMarktDto;
 import com.gfarkas.mapper.CategoryMapper;
 import com.gfarkas.mapper.ProductMapper;
-import com.gfarkas.repository.CategoryRepository;
-import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.repository.MediaMarktRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +17,11 @@ public class MassUploadService {
     ProductMapper productMapper;
 
     @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    ProductRepository productRepository;
+    MediaMarktRepository repository;
 
-    public void create(MassUploadDto massUploadDto) {
-        for (CategoryDto categoryDto : massUploadDto.getCategoryDtos()) {
-            CategoryEntity categoryEntity = categoryMapper.toCategoryEntity(categoryDto);
-            categoryRepository.save(categoryEntity);
-            productRepository.saveAll(categoryEntity.getProductEntities());
-
+    public void create(MediaMarktDto mediaMarktDto) {
+        for (CategoryDto categoryDto : mediaMarktDto.getCategoryDtos()) {
+            repository.add(categoryDto);
         }
     }
 }

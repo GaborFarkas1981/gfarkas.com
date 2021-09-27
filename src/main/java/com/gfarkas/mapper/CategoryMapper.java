@@ -1,43 +1,42 @@
 package com.gfarkas.mapper;
 
-import com.gfarkas.dao.CategoryEntity;
-import com.gfarkas.dao.ProductEntity;
+import com.gfarkas.dao.Category;
+import com.gfarkas.dao.Product;
 import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.dto.ProductDto;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import java.util.Set;
+import java.util.List;
 
 @Mapper(
         componentModel = "spring"
 )
 public abstract class CategoryMapper {
 
-    public abstract CategoryDto toCategoryDto(CategoryEntity categoryEntity);
+    public abstract CategoryDto toCategoryDto(Category category);
 
-    public abstract Set<CategoryDto> toCategoryDto(Iterable<CategoryEntity> categoryEntities);
+    public abstract List<CategoryDto> toCategoryDto(Iterable<Category> categoryEntities);
 
-    public abstract CategoryEntity toCategoryEntity(CategoryDto categoryDto);
+    public abstract Category toCategory(CategoryDto categoryDto);
 
-    public abstract Set<ProductDto> toProductDto(Set<ProductEntity> productEntities);
+    public abstract List<ProductDto> toProductDto(List<Product> productEntities);
 
-    public abstract Set<ProductEntity> toProductEntity(Set<ProductDto> productDtos);
-
+    public abstract List<Product> toProduct(List<ProductDto> productDtos);
 
     @AfterMapping
-    public void toCategoryEntity(CategoryDto categoryDto, @MappingTarget CategoryEntity categoryEntity) {
-        Set<ProductDto> productDtos = categoryDto.getProductDtos();
-        Set<ProductEntity> productEntities = toProductEntity(productDtos);
+    public void toCategory(CategoryDto categoryDto, @MappingTarget Category category) {
+        List<ProductDto> productDtos = categoryDto.getProductDtos();
+        List<Product> products = toProduct(productDtos);
 
-        if (productEntities != null) {
-            for (ProductEntity productEntity : productEntities) {
-                productEntity.setCategoryEntity(categoryEntity);
+        if (products != null) {
+            for (Product product : products) {
+                product.setCategoryName(category.getName());
             }
         }
 
 
-        categoryEntity.setProductEntities(productEntities);
+        category.setProducts(products);
     }
 }

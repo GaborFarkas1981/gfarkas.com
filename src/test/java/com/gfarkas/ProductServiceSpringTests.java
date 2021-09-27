@@ -1,9 +1,10 @@
 package com.gfarkas;
 
-import com.gfarkas.dao.ProductEntity;
+import com.gfarkas.dao.Product;
+import com.gfarkas.dto.CategoryDto;
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.mapper.ProductMapper;
-import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.repository.MediaMarktRepository;
 import com.gfarkas.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @SpringBootTest
 public class ProductServiceSpringTests extends CommonTestService {
@@ -21,19 +22,22 @@ public class ProductServiceSpringTests extends CommonTestService {
     ProductService service;
 
     @Autowired
-    ProductRepository repository;
+    MediaMarktRepository repository;
 
     @Autowired
     ProductMapper mapper;
 
     @BeforeEach
-    public void clearAllProduct() {
+    public void clearAll() {
         repository.deleteAll();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setName("Notebook");
+        repository.add(categoryDto);
     }
 
     @Test
     public void createProductTest() {
-        ProductDto savedProduct = mapper.toProductDto(saveProduct());
+        ProductDto savedProduct = saveProduct();
         Assertions.assertNotNull(savedProduct);
         Assertions.assertEquals(123, savedProduct.getPrice());
     }
@@ -41,7 +45,7 @@ public class ProductServiceSpringTests extends CommonTestService {
     @Test
     public void getProductsByBrandTest() {
         saveProduct();
-        Set<ProductDto> receivedProducts = service.getByBrand("Dell");
+        List<ProductDto> receivedProducts = service.getByBrand("Dell");
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
             ProductDto productDto = (ProductDto) o;
@@ -52,7 +56,7 @@ public class ProductServiceSpringTests extends CommonTestService {
     @Test
     public void getProductsByDescriptionTest() {
         saveProduct();
-        Set<ProductDto> receivedProducts = service.getByDescription("description");
+        List<ProductDto> receivedProducts = service.getByDescription("description");
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
             ProductDto productDto = (ProductDto) o;
@@ -61,22 +65,14 @@ public class ProductServiceSpringTests extends CommonTestService {
     }
 
     @Test
-    public void getProductsByCategoryIdTest() {
+    public void getProductsByCategoryNameTest() {
         saveProduct();
-        Set<ProductDto> receivedProducts = service.getProductsByCategoryId(1L);
+        List<ProductDto> receivedProducts = service.getByCategoryName("Notebook");
         Assertions.assertNotNull(receivedProducts);
         for (Object o : receivedProducts.toArray()) {
             ProductDto productDto = (ProductDto) o;
             Assertions.assertEquals("os", productDto.getOs());
         }
-    }
-
-    private ProductEntity saveProduct() {
-        return repository.save(
-                mapper.toProductEntity(
-                        createProductDto(
-                                null, "Dell", 123, "description", "os", 12))
-        );
     }
 
     @Test
@@ -85,9 +81,17 @@ public class ProductServiceSpringTests extends CommonTestService {
         for (long i = 0L; i < 10; i++) {
             saveProduct();
         }
-        Set<ProductDto> receivedProducts = service.list();
+        List<ProductDto> receivedProducts = service.list("Notebook");
         Assertions.assertNotNull(receivedProducts);
         Assertions.assertEquals(10, receivedProducts.size());
+    }
+
+    private ProductDto saveProduct() {
+        ProductDto productDto = createProductDto(null, "Dell", 123, "description", "os", 12);
+        productDto.setCategoryName("Notebook");
+        repository.addProductToCategory(productDto);
+
+        return productDto;
     }
 
 }

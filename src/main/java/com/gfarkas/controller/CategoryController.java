@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = {"http://localhost", "http://localhost:4200"})
 public class CategoryController {
 
     @Autowired
@@ -26,16 +26,14 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> get(@PathVariable(value = "id") Long id) {
-        return new ResponseEntity<>(service.get(id), HttpStatus.OK
-        );
+    @GetMapping("/{name}")
+    public ResponseEntity<CategoryDto> get(@PathVariable(value = "name") String name) {
+        return new ResponseEntity<>(service.getByName(name), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<Set<CategoryDto>> list() {
-        return new ResponseEntity<>(service.list(), HttpStatus.OK
-        );
+    public ResponseEntity<List<CategoryDto>> list() {
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
 
 }

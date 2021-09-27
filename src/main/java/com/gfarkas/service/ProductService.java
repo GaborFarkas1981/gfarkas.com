@@ -1,15 +1,14 @@
 package com.gfarkas.service;
 
-import com.gfarkas.dao.CategoryEntity;
-import com.gfarkas.dao.ProductEntity;
+import com.gfarkas.dao.Category;
+import com.gfarkas.dao.Product;
 import com.gfarkas.dto.ProductDto;
 import com.gfarkas.mapper.ProductMapper;
-import com.gfarkas.repository.CategoryRepository;
-import com.gfarkas.repository.ProductRepository;
+import com.gfarkas.repository.MediaMarktRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -18,46 +17,34 @@ public class ProductService {
     ProductMapper mapper;
 
     @Autowired
-    ProductRepository productRepository;
+    MediaMarktRepository repository;
 
-    @Autowired
-    CategoryRepository categoryRepository;
-
-    public ProductDto create(ProductDto productDto) {
-        ProductEntity productEntity = mapper.toProductEntity(productDto);
-        ProductEntity savedEntity = productRepository.save(productEntity);
-
-        return mapper.toProductDto(savedEntity);
+    public void create(ProductDto productDto) {
+        repository.addProductToCategory(productDto);
     }
 
-    public Set<ProductDto> getByDescription(String description) {
-        Set<ProductEntity> productEntities = productRepository.findByDescription(description);
+    public List<ProductDto> getByCategoryName(String categoryName) {
+        List<Product> products = repository.findAllProductInCategory(categoryName);
 
-        return mapper.toProductDto(productEntities);
+        return mapper.toProductDto(products);
     }
 
-    public Set<ProductDto> getByBrand(String brand) {
-        Set<ProductEntity> productEntities = productRepository.findByBrand(brand);
+    public List<ProductDto> getByDescription(String description) {
+        List<Product> products = repository.findProductByDescription(description);
 
-        return mapper.toProductDto(productEntities);
+        return mapper.toProductDto(products);
     }
 
-    public Set<ProductDto> list() {
-        Iterable<ProductEntity> productEntities = productRepository.findAll();
+    public List<ProductDto> getByBrand(String brand) {
+        List<Product> products = repository.findProductByBrand(brand);
 
-        return mapper.toProductDto(productEntities);
+        return mapper.toProductDto(products);
     }
 
-    public Set<ProductDto> getProductsByCategoryId(Long categoryId) {
-        Set<ProductEntity> productEntities = productRepository.findByCategoryEntity_Id(categoryId);
+    public List<ProductDto> list(String categoryName) {
+        Iterable<Product> products = repository.findAllProductInCategory(categoryName);
 
-        return mapper.toProductDto(productEntities);
+        return mapper.toProductDto(products);
     }
 
-    public Set<ProductDto> getProductsByCategoryName(String categoryName) {
-        CategoryEntity categoryEntity = categoryRepository.findCategoryEntityByName(categoryName);
-        Set<ProductEntity> productEntities = productRepository.findByCategoryEntity_Id(categoryEntity.getId());
-
-        return mapper.toProductDto(productEntities);
-    }
 }

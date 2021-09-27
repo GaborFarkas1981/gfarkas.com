@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +16,6 @@ public class CategoryDto {
     private String name;
 
     @JsonProperty("products")
-    private Set<ProductDto> productDtos;
+    private List<ProductDto> productDtos;
 
 }

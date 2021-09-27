@@ -8,6 +8,9 @@ import lombok.Setter;
 @Setter
 public class ProductDto {
 
+    @JsonProperty("categoryName")
+    private String categoryName;
+
     @JsonProperty("description")
     private String description;
 

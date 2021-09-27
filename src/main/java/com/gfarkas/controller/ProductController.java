@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = {"http://localhost", "http://localhost:4200"})
 public class ProductController {
 
     @Autowired
@@ -27,24 +27,16 @@ public class ProductController {
     }
 
     @GetMapping("/{brand}")
-    public ResponseEntity<Set<ProductDto>> get(@PathVariable(value = "brand") String brand) {
+    public ResponseEntity<List<ProductDto>> get(@PathVariable(value = "brand") String brand) {
         return new ResponseEntity<>(service.getByBrand(brand),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/category/{categoryName}")
-    public ResponseEntity<Set<ProductDto>> list(@PathVariable("categoryName") String categoryName) {
-        return new ResponseEntity<>(service.getProductsByCategoryName(categoryName),
+    public ResponseEntity<List<ProductDto>> list(@PathVariable("categoryName") String categoryName) {
+        return new ResponseEntity<>(service.getByCategoryName(categoryName),
                 HttpStatus.OK
         );
     }
-
-    @GetMapping()
-    public ResponseEntity<Set<ProductDto>> list() {
-        return new ResponseEntity<>(service.list(),
-                HttpStatus.OK
-        );
-    }
-
 }
